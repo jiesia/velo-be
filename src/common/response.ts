@@ -64,4 +64,8 @@ export enum ErrorCode {
   USER_NOT_FOUND = 1006,
   /** 密码错误 */
   PASSWORD_NOT_MATCH = 1007,
+  /** 项目不存在 */
+  PROJECT_NOT_FOUND = 1008,
+  /** 无权限 */
+  FORBIDDEN = 1009,
 }

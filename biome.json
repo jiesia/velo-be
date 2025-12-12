@@ -19,6 +19,9 @@
       "complexity": {
         "noStaticOnlyClass": "off",
         "useOptionalChain": "off"
+      },
+      "style": {
+        "noNonNullAssertion": "off"
       }
     }
   },

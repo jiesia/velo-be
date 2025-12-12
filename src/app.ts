@@ -5,6 +5,7 @@ import { Elysia } from "elysia";
 import { ErrorCode, ErrorResponse } from "./common/response";
 import { authMiddleware } from "./middleware/auth";
 import { authRoutes } from "./modules/auth";
+import { projectRoutes } from "./modules/project";
 import { userRoutes } from "./modules/user";
 
 /**
@@ -50,5 +51,6 @@ export function createApp() {
       // 路由
       .use(authRoutes)
       .use(userRoutes)
+      .use(projectRoutes)
   );
 }
