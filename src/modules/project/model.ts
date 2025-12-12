@@ -2,6 +2,7 @@ import {
   integer,
   pgTable,
   serial,
+  text,
   timestamp,
   uuid,
   varchar,
@@ -16,6 +17,7 @@ export const projects = pgTable("projects", {
   uuid: uuid("uuid").defaultRandom().notNull(),
   ownerId: integer("owner_id").references(() => users.id),
   name: varchar("name", { length: 255 }).notNull(),
+  html: text("html"),
   createdAt: timestamp("created_at", { withTimezone: true })
     .defaultNow()
     .notNull(),

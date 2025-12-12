@@ -51,6 +51,7 @@ export async function initDatabase() {
       uuid UUID DEFAULT uuid_generate_v4() NOT NULL,
       owner_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
       name VARCHAR(255) NOT NULL,
+      html TEXT,
       created_at TIMESTAMPTZ DEFAULT NOW() NOT NULL,
       updated_at TIMESTAMPTZ DEFAULT NOW() NOT NULL
     )

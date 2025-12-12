@@ -23,7 +23,7 @@ export abstract class ProjectService {
   static async create(ownerId: number, name: string) {
     const [project] = await db
       .insert(projects)
-      .values({ name, ownerId })
+      .values({ name, ownerId, html: "" })
       .returning();
 
     return project;
