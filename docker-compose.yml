@@ -1,0 +1,68 @@
+services:
+  # PostgreSQL 数据库服务
+  postgres:
+    image: postgres:16
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: velo
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  # Redis 缓存服务
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+    command: ["redis-server", "--appendonly", "yes"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # 应用服务
+  app:
+    build: .
+    ports:
+      - 3000:3000
+    environment:
+      # 在容器网络中连接数据库与缓存
+      DATABASE_URL: postgres://postgres:postgres@postgres:5432/velo
+      REDIS_URL: redis://redis:6379
+      # 安全配置（请在生产环境通过 env_file 或密钥管理注入）
+      JWT_ACCESS_SECRET: change-me
+      JWT_ACCESS_EXPIRES_IN: 15m
+      JWT_REFRESH_SECRET: change-me
+      JWT_REFRESH_EXPIRES_IN: 7d
+      ACCESS_COOKIE_MAX_AGE_SEC: 900 # 900 秒 = 15 分钟（accessToken Cookie maxAge）
+      REFRESH_COOKIE_MAX_AGE_SEC: 604800 # 604800 秒 = 7 天（refreshToken Cookie maxAge）
+      REFRESH_EXPIRES_MS: 604800000 # 604800000 毫秒 = 7 天（数据库 refresh_token 过期时间）
+      LOG_LEVEL: info
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    develop:
+      watch:
+        - path: ./src
+          target: /app/src
+          action: sync
+        - path: package.json
+          action: rebuild
+        - path: bun.lock
+          action: rebuild
+        - path: docker-compose.yml
+          action: restart
+
+volumes:
+  pgdata:

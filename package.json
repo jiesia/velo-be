@@ -3,12 +3,23 @@
   "version": "1.0.50",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "bun run --watch src/index.ts"
+    "dev": "bun run --watch src/index.ts",
+    "lint": "npx @biomejs/biome lint --write ./src",
+    "format": "npx @biomejs/biome format --write ./src"
   },
   "dependencies": {
-    "elysia": "latest"
+    "@bogeychan/elysia-logger": "^0.1.10",
+    "@elysiajs/cors": "^1.4.0",
+    "@elysiajs/jwt": "^1.4.0",
+    "@elysiajs/openapi": "^1.4.11",
+    "bcryptjs": "^3.0.3",
+    "drizzle-orm": "^0.45.1",
+    "elysia": "latest",
+    "pino": "^10.1.0",
+    "postgres": "^3.4.7"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.3.8",
     "bun-types": "latest"
   },
   "module": "src/index.js"
