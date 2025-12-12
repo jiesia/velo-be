@@ -5,6 +5,7 @@ import { Elysia } from "elysia";
 import { ErrorCode, ErrorResponse } from "./common/response";
 import { authMiddleware } from "./middleware/auth";
 import { authRoutes } from "./modules/auth";
+import { chatRoutes } from "./modules/chat";
 import { projectRoutes } from "./modules/project";
 import { userRoutes } from "./modules/user";
 
@@ -52,5 +53,6 @@ export function createApp() {
       .use(authRoutes)
       .use(userRoutes)
       .use(projectRoutes)
+      .use(chatRoutes)
   );
 }
